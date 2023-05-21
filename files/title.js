@@ -16,7 +16,7 @@ function loaded(){
 
 var x = 0;
 
-var titleText = [ "h3li0p4us3", "On", "Top"];
+var titleText = [ "Pepa", "On", "Top"];
 
 function loop(){
 
