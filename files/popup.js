@@ -5,7 +5,7 @@
     });
 
     function popup1() {
-        CreativaPopup.create('Feel free to DM me h3li0p4us3#3053', 'Discord');
+        CreativaPopup.create('Feel free to DM me pepa#7928', 'Discord');
     }
 
     function popup2() {
