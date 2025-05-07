@@ -19,13 +19,14 @@
             position: relative;
         }
 
+        /* Círculo de carga */
         .spinner {
             width: 60px;
             height: 60px;
             border: 6px solid #333;
             border-top: 6px solid #00ffc3;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin 1s linear infinite, pulse 1.5s ease-out infinite;
             margin-bottom: 20px;
         }
 
@@ -35,20 +36,36 @@
             }
         }
 
-        h1 {
-            font-size: 1.5em;
-            color: #00ffc3;
-            margin: 0;
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
         }
 
+        /* Mensaje de error */
         .error-message {
-            font-size: 1.2em;
+            font-size: 1.5em;
             color: #ff4d4d;
-            margin-top: 20px;
-            display: none; /* Inicialmente oculto */
+            margin-top: 30px;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
         }
 
-        /* Estilo para las partículas de fondo */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Partículas de fondo */
         .particles {
             position: absolute;
             top: 0;
@@ -63,8 +80,8 @@
             position: absolute;
             border-radius: 50%;
             background-color: #00ffc3;
-            opacity: 0.7;
-            animation: moveParticle 3s linear infinite;
+            opacity: 0.5;
+            animation: moveParticle 5s ease-in-out infinite, growParticle 3s ease-in-out infinite;
         }
 
         @keyframes moveParticle {
@@ -77,37 +94,52 @@
                 opacity: 0;
             }
         }
+
+        @keyframes growParticle {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.5);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
     </style>
 </head>
 <body>
 
+    <!-- Círculo de carga -->
     <div class="spinner"></div>
     <h1>Procesando datos...</h1>
-    <div class="error-message">Desactiva tu vpn nigga.</div>
+    
+    <!-- Mensaje de error, aparecerá después -->
+    <div class="error-message">Quitate la vpn nigga.</div>
 
     <!-- Partículas de fondo -->
     <div class="particles"></div>
 
     <script src="animations.js"></script>
     <script>
-        // Función para generar partículas de fondo
+        // Función para generar partículas flotantes de fondo
         function generateParticles() {
             const particleContainer = document.querySelector('.particles');
             for (let i = 0; i < 100; i++) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
-                const size = Math.random() * 5 + 2 + 'px'; // Tamaño aleatorio
+                const size = Math.random() * 5 + 5 + 'px'; // Tamaño aleatorio
                 particle.style.width = size;
                 particle.style.height = size;
                 particle.style.left = Math.random() * 100 + 'vw'; // Posición aleatoria en el eje X
-                particle.style.animationDuration = Math.random() * 5 + 5 + 's'; // Duración aleatoria de la animación
+                particle.style.animationDuration = Math.random() * 3 + 3 + 's'; // Duración aleatoria de la animación
                 particleContainer.appendChild(particle);
             }
         }
 
         generateParticles();
 
-        // Aquí forzamos el error 100% de las veces
+        // Forzar un error 100% de las veces
         async function processData() {
             try {
                 // Simulamos un error 100% de las veces
@@ -115,7 +147,8 @@
 
             } catch (error) {
                 console.error(error);
-                document.querySelector('.error-message').style.display = 'block';  // Mostrar mensaje de error
+                // Mostrar el mensaje de error con animación
+                document.querySelector('.error-message').style.opacity = '1'; 
             }
         }
 
