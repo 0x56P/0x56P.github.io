@@ -46,8 +46,12 @@
             margin-bottom: 20px;
         }
 
+        /* Animación para girar el círculo */
         @keyframes spin {
-            to {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
                 transform: rotate(360deg);
             }
         }
@@ -128,6 +132,27 @@
                 transform: translateX(0);
             }
         }
+
+        /* Partículas que siguen el ratón */
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: #00ffc3;
+            border-radius: 50%;
+            opacity: 0.8;
+            pointer-events: none;
+            transition: transform 0.1s ease-out;
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
     </style>
 </head>
 <body>
@@ -137,7 +162,10 @@
     <h1>Procesando datos...</h1>
     
     <!-- Mensaje de error -->
-    <div class="error-message">Quitate la vpn toyako.</div>
+    <div class="error-message">Quitate la vpn nigger</div>
+
+    <!-- Contenedor de partículas -->
+    <div class="particles"></div>
 
     <script src="animations.js"></script>
     <script>
@@ -156,6 +184,28 @@
 
         // Llamar a la función de procesamiento de datos al cargar la página
         processData();
+
+        // Crear partículas que sigan al ratón
+        const particlesContainer = document.querySelector('.particles');
+
+        // Función para generar partículas
+        function createParticles(x, y) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.left = `${x - 4}px`;  // Centrado en el ratón
+            particle.style.top = `${y - 4}px`;   // Centrado en el ratón
+            particlesContainer.appendChild(particle);
+
+            // Animación para desaparecer la partícula después de un tiempo
+            setTimeout(() => {
+                particle.remove();
+            }, 500);  // Duración de la partícula
+        }
+
+        // Evento que detecta el movimiento del ratón
+        window.addEventListener('mousemove', (e) => {
+            createParticles(e.clientX, e.clientY);
+        });
     </script>
 </body>
 </html>
