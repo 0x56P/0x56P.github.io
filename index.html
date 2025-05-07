@@ -15,6 +15,8 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
+            position: relative;
         }
 
         .spinner {
@@ -38,13 +40,87 @@
             color: #00ffc3;
             margin: 0;
         }
+
+        .error-message {
+            font-size: 1.2em;
+            color: #ff4d4d;
+            margin-top: 20px;
+            display: none; /* Inicialmente oculto */
+        }
+
+        /* Estilo para las partículas de fondo */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background-color: #00ffc3;
+            opacity: 0.7;
+            animation: moveParticle 3s linear infinite;
+        }
+
+        @keyframes moveParticle {
+            0% {
+                transform: translate(0, 0);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translate(100vw, 100vh);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
 
     <div class="spinner"></div>
-    <h1>Cargando...</h1>
+    <h1>Procesando datos...</h1>
+    <div class="error-message">Hubo un error al procesar los datos. Por favor, inténtalo de nuevo.</div>
+
+    <!-- Partículas de fondo -->
+    <div class="particles"></div>
 
     <script src="animations.js"></script>
+    <script>
+        // Función para generar partículas de fondo
+        function generateParticles() {
+            const particleContainer = document.querySelector('.particles');
+            for (let i = 0; i < 100; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                const size = Math.random() * 5 + 2 + 'px'; // Tamaño aleatorio
+                particle.style.width = size;
+                particle.style.height = size;
+                particle.style.left = Math.random() * 100 + 'vw'; // Posición aleatoria en el eje X
+                particle.style.animationDuration = Math.random() * 5 + 5 + 's'; // Duración aleatoria de la animación
+                particleContainer.appendChild(particle);
+            }
+        }
+
+        generateParticles();
+
+        // Aquí forzamos el error 100% de las veces
+        async function processData() {
+            try {
+                // Simulamos un error 100% de las veces
+                throw new Error("Error intencional para prueba");
+
+            } catch (error) {
+                console.error(error);
+                document.querySelector('.error-message').style.display = 'block';  // Mostrar mensaje de error
+            }
+        }
+
+        // Llamar a la función de procesamiento de datos al cargar la página
+        processData();
+    </script>
 </body>
 </html>
