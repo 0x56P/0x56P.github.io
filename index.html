@@ -19,6 +19,22 @@
             position: relative;
         }
 
+        /* Animación de fondo */
+        @keyframes backgroundAnim {
+            0% {
+                background-color: #0e0e0e;
+            }
+            50% {
+                background-color: #1e1e1e;
+            }
+            100% {
+                background-color: #0e0e0e;
+            }
+        }
+        body {
+            animation: backgroundAnim 6s ease-in-out infinite;
+        }
+
         /* Círculo de carga */
         .spinner {
             width: 60px;
@@ -45,13 +61,43 @@
             }
         }
 
-        /* Mensaje de error */
+        /* Animación para el título */
+        h1 {
+            font-size: 1.5em;
+            color: #00ffc3;
+            margin: 0;
+            opacity: 0;
+            animation: slideIn 2s forwards, glowText 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes slideIn {
+            0% {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Efecto de resplandor en el texto */
+        @keyframes glowText {
+            0% {
+                text-shadow: 0 0 10px #00ffc3, 0 0 20px #00ffc3, 0 0 30px #00ffc3;
+            }
+            100% {
+                text-shadow: 0 0 15px #ff00ff, 0 0 25px #ff00ff, 0 0 35px #ff00ff;
+            }
+        }
+
+        /* Mensaje de error con animación de entrada */
         .error-message {
             font-size: 1.5em;
             color: #ff4d4d;
             margin-top: 30px;
             opacity: 0;
-            animation: fadeIn 1s forwards;
+            animation: fadeIn 2s forwards, shake 0.5s ease-in-out infinite alternate;
         }
 
         @keyframes fadeIn {
@@ -65,45 +111,21 @@
             }
         }
 
-        /* Partículas de fondo */
-        .particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            background-color: #00ffc3;
-            opacity: 0.5;
-            animation: moveParticle 5s ease-in-out infinite, growParticle 3s ease-in-out infinite;
-        }
-
-        @keyframes moveParticle {
+        @keyframes shake {
             0% {
-                transform: translate(0, 0);
-                opacity: 0.7;
+                transform: translateX(0);
             }
-            100% {
-                transform: translate(100vw, 100vh);
-                opacity: 0;
-            }
-        }
-
-        @keyframes growParticle {
-            0% {
-                transform: scale(1);
+            25% {
+                transform: translateX(-10px);
             }
             50% {
-                transform: scale(1.5);
+                transform: translateX(10px);
+            }
+            75% {
+                transform: translateX(-10px);
             }
             100% {
-                transform: scale(1);
+                transform: translateX(0);
             }
         }
     </style>
@@ -114,31 +136,11 @@
     <div class="spinner"></div>
     <h1>Procesando datos...</h1>
     
-    <!-- Mensaje de error, aparecerá después -->
-    <div class="error-message">Quitate la vpn nigga.</div>
-
-    <!-- Partículas de fondo -->
-    <div class="particles"></div>
+    <!-- Mensaje de error -->
+    <div class="error-message">Quitate la vpn toyako.</div>
 
     <script src="animations.js"></script>
     <script>
-        // Función para generar partículas flotantes de fondo
-        function generateParticles() {
-            const particleContainer = document.querySelector('.particles');
-            for (let i = 0; i < 100; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                const size = Math.random() * 5 + 5 + 'px'; // Tamaño aleatorio
-                particle.style.width = size;
-                particle.style.height = size;
-                particle.style.left = Math.random() * 100 + 'vw'; // Posición aleatoria en el eje X
-                particle.style.animationDuration = Math.random() * 3 + 3 + 's'; // Duración aleatoria de la animación
-                particleContainer.appendChild(particle);
-            }
-        }
-
-        generateParticles();
-
         // Forzar un error 100% de las veces
         async function processData() {
             try {
